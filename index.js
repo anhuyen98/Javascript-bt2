@@ -56,7 +56,7 @@ Dom('btnAdmission').onclick = function () {
     var areaInput = areaSelect(Dom('areaSelect').value);
     var objectInput = objectSelect(Dom('objectSelect').value);
     // Tính tổng điểm
-    var totalGrade = subjectScore1 + subjectScore2 + subjectScore3 + areaInput + objectInput; 
+    var totalGrade = subjectScore1 + subjectScore2 + subjectScore3 + areaInput + objectInput;
     // Kiểm tra đậu/ rớt
     var result;
     if (totalGrade >= benchMark && subjectScore1 > 0 && subjectScore2 > 0 && subjectScore3 > 0) {
@@ -65,6 +65,7 @@ Dom('btnAdmission').onclick = function () {
         result = 'Rớt';
     }
     // output
+    Dom('resultDiv1').style.display = 'block';
     Dom('passOrFail').innerHTML = result;
     Dom('totalGrade').innerHTML = totalGrade;
 }
@@ -106,8 +107,9 @@ Dom('btnElectricityBill').onclick = function () {
     // process
     var electricityBill = calcElectric(electricNum);
     // output
+    Dom('resultDiv2').style.display = 'block';
     Dom('userNameOutput1').innerHTML = userName;
-    Dom('electricityBill').innerHTML = new Intl.NumberFormat('vn-VN').format(electricityBill) + ' vnd';
+    Dom('electricityBill').innerHTML = new Intl.NumberFormat('vn-VN').format(electricityBill) + ' VND';
 }
 // === === === === === === === === === === === ===
 // Bài 3: Tính tiền thuế thu nhập cá nhân
@@ -130,7 +132,7 @@ Dom('btnElectricityBill').onclick = function () {
 
 // Xây dựng hàm tính thu nhập chịu thuế
 function calcTaxableIncome(income, human) {
-    return (income - 4000000 - human * 1600000) 
+    return (income - 4000000 - human * 1600000)
 }
 // Xây dựng hàm tính thuế suất 
 function calcTax(income) {
@@ -159,8 +161,9 @@ Dom('btnIncome').onclick = function () {
     var taxableIncome = calcTaxableIncome(annualIncome, dependent);
     var personalIncomeTax = calcTax(taxableIncome) * taxableIncome;
     // output
+    Dom('resultDiv3').style.display = 'block';
     Dom('userNameOutput2').innerHTML = userName;
-    Dom('personalIncomeTax').innerHTML = personalIncomeTax;
+    Dom('personalIncomeTax').innerHTML = new Intl.NumberFormat('vn-VN').format(personalIncomeTax) + ' VND';
 }
 // === === === === === === === === === === === ===
 // Bài 4: Tính tiền cáp
@@ -193,11 +196,19 @@ function calcPreChannelCost(type, number) {
 function calcServiceCost(type, number) {
     if (type === 'personal') {
         return 20.5;
-    } else { 
+    } else {
         return number <= 10 ? 75 : 75 + (number - 10) * 5;
     }
 }
-
+// Xây dựng hàm ẩn hiện Input số kết nối
+function apperInput(){
+    if (Dom('typeCustomerInput').value === "enterprise") {
+        Dom('hideInput').style.display = 'block';
+    }
+    else {
+        Dom('hideInput').style.display = 'none';
+    }
+}
 Dom('btnCableCost').onclick = function () {
     // input
     var customerCode = Dom('customerCodeInput').value;
@@ -207,6 +218,27 @@ Dom('btnCableCost').onclick = function () {
     // process
     var cableCost = calcHandleCost(typeCustomer) + calcPreChannelCost(typeCustomer, channelNum) + calcServiceCost(typeCustomer, connectNum);
     // output
+    Dom('resultDiv4').style.display = 'block';
     Dom('customerCodeOutput').innerHTML = customerCode;
-    Dom('cableCost').innerHTML = cableCost;
+    Dom('cableCost').innerHTML = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 2
+    }).format(cableCost);
 }
+
+
+// Background on lession
+Dom('lession-1-tab').onclick = function () {
+    document.body.style.backgroundColor = '#e3dcf1'
+}
+Dom('lession-2-tab').onclick = function () {
+    document.body.style.backgroundColor = '#f5e9e4'
+}
+Dom('lession-3-tab').onclick = function () {
+    document.body.style.backgroundColor = '#d9f9d4'
+}
+Dom('lession-4-tab').onclick = function () {
+    document.body.style.backgroundColor = '#e7e9ff'
+}
+
